@@ -168,7 +168,8 @@ public class DiningSession extends Storable implements Parcelable {
 	@Override
 	public void unpackObject(ParseObject pobj) {
 		this.setObjId(pobj.getObjectId());
-		this.users.addAll((List<UserInfo>) pobj.get(this.USERS));
+		//this.users.addAll((List<UserInfo>) pobj.get(this.USERS));
+		this.users.addAll((List) ParseUtil.unpackListOfStorables((ParseObject) pobj.get(this.USERS)));
 		this.setStartTime(pobj.getLong(START_TIME));
 		this.setEndTime(pobj.getLong(this.END_TIME));
 		this.setOrders((List<Order>) pobj.get(this.ORDERS));

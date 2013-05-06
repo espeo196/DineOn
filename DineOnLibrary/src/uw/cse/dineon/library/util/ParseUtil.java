@@ -291,6 +291,7 @@ public class ParseUtil {
 										Class<? extends Storable> c, 
 										Method handle, 
 										Map<String, String> attr) {
+		Log.d(TAG, "Cloud Request recieved for class " + c);
 
 		ParseQuery query = new ParseQuery(c.getSimpleName());
 		if(attr != null){

@@ -227,7 +227,7 @@ public class CustomerListFragment extends ListFragment {
 			expand.setOnClickListener(new View.OnClickListener() {
 	             public void onClick(View v) {
 	            	 expand(position);
-	            	 Log.v(TAG, "Toggled position " + position);
+	            	 Log.v(TAG, "Toggled position " + position + "/ " + users.size());
 	            	 //Stick *that* in your closure and smoke it
 	             }
 	         });
@@ -242,7 +242,7 @@ public class CustomerListFragment extends ListFragment {
 			
 			String name;
 			String phone;
-			Log.w(TAG, "Request for position: " + position);
+			Log.v(TAG, "Request for position: " + position);
 			List<UserInfo> infolist = users.get(position).getUsers();
 			if(infolist != null && infolist.size() > 0 && infolist.get(0) != null){
 				UserInfo ui = infolist.get(0);

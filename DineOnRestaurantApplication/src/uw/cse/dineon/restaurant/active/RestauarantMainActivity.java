@@ -64,7 +64,7 @@ CustomerListFragment.CustomerListener
 		mPagerAdapter = new ScreenSlidePagerAdapter(getSupportFragmentManager());
 		mPager.setAdapter(mPagerAdapter);
 
-		// TODO Fill and update appropiately
+		// TODO Fill and update appropriately
 		mOrders = new ArrayList<String>();
 		mRequests = new ArrayList<String>();
 		mCustomers = new ArrayList<DiningSession>();
@@ -98,7 +98,7 @@ CustomerListFragment.CustomerListener
 			Log.e(TAG, "Failed to invocate method populateDiningSessionListCallback()");
 			e.printStackTrace();
 		}
-
+		Log.v(TAG, "Requesting diningsessions from cloud");
 		ParseUtil.getDataFromCloud(this, DiningSession.class, m, null);
 	}
 	
@@ -173,6 +173,7 @@ CustomerListFragment.CustomerListener
 			frag.addCustomer(session); 
 		}
 		mCustomers.add(session);
+		Log.v(TAG, "Session added");
 	}
 	
 	/**
@@ -202,6 +203,7 @@ CustomerListFragment.CustomerListener
 	}
 	
 	public void populateDiningSessionListCallback(List<Storable> sessionList){
+		Log.v(TAG, "DiningSessionList callback called!");
 		for(Storable s : sessionList){ //XXX Unsafe cast
 			addCustomer((DiningSession)s);
 		}
