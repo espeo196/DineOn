@@ -1,11 +1,14 @@
 package uw.cse.dineon.restaurant.active;
 
+import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.List;
 
 import uw.cse.dineon.library.DiningSession;
+import uw.cse.dineon.library.Storable;
 import uw.cse.dineon.library.User;
 import uw.cse.dineon.library.UserInfo;
+import uw.cse.dineon.library.util.ParseUtil;
 import uw.cse.dineon.restaurant.DineOnRestaurantActivity;
 import uw.cse.dineon.restaurant.R;
 import android.content.Intent;
@@ -14,6 +17,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 
 /**
  * This activity supports the main features for this restaurant
@@ -77,11 +81,25 @@ CustomerListFragment.CustomerListener
 		for (String s: requests) {
 			mRequests.add(s);
 		}
-
+		
+		
 		String[] customers = {"Batman", "Robin", "Superman", "Wonderwoman"};
 		for (String s: customers) {
 			mCustomers.add(makeDummySession(s));
 		}
+		
+		
+		Method m = null;
+		try {
+			m = RestauarantMainActivity.class.getMethod("populateDiningSessionListCallback",
+					List.class);
+		} catch (NoSuchMethodException e) {
+			// TODO Auto-generated catch block
+			Log.e(TAG, "Failed to invocate method populateDiningSessionListCallback()");
+			e.printStackTrace();
+		}
+
+		ParseUtil.getDataFromCloud(this, DiningSession.class, m, null);
 	}
 	
 	/**
@@ -148,13 +166,13 @@ CustomerListFragment.CustomerListener
 	 * @param customer
 	 */
 	//TODO Make this take a diningsession
-	private void addCustomer(String customer){
+	private void addCustomer(DiningSession session){
 		Fragment f = mPagerAdapter.getCurrentFragment();
 		if (f != null && f instanceof CustomerListFragment) {
 			CustomerListFragment frag = (CustomerListFragment) f;
-			frag.addCustomer(makeDummySession(customer)); 
+			frag.addCustomer(session); 
 		}
-		mCustomers.add(makeDummySession(customer));
+		mCustomers.add(session);
 	}
 	
 	/**
@@ -181,6 +199,12 @@ CustomerListFragment.CustomerListener
 			frag.addRequest(request);
 		}
 		mRequests.add(request);
+	}
+	
+	public void populateDiningSessionListCallback(List<Storable> sessionList){
+		for(Storable s : sessionList){ //XXX Unsafe cast
+			addCustomer((DiningSession)s);
+		}
 	}
 
 	/**

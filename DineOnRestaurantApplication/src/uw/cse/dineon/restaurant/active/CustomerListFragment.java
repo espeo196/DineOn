@@ -96,6 +96,7 @@ public class CustomerListFragment extends ListFragment {
 	public void addCustomer(DiningSession customer) {
 		if (mAdapter != null) {
 			mAdapter.add(customer);
+			Log.v(TAG, "Added customer to list! ~VB");
 		} 
 		else
 			Log.d(TAG, "Attempted to add customer to nonexistent list!");
@@ -241,7 +242,7 @@ public class CustomerListFragment extends ListFragment {
 			
 			String name;
 			String phone;
-			
+			Log.w(TAG, "Request for position: " + position);
 			List<UserInfo> infolist = users.get(position).getUsers();
 			if(infolist != null && infolist.size() > 0 && infolist.get(0) != null){
 				UserInfo ui = infolist.get(0);
